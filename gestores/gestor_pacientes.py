@@ -2,23 +2,16 @@
 import pickle
 import os
 from modelos.paciente import Paciente
+from utils.persistencia import Persistencia  # ⬅️ Importamos la clase Persistencia
+
 
 class GestorDePacientes:
     def __init__(self, archivo='datos/pacientes.bin'):
         self.archivo = archivo
-        self.pacientes = []
-        self.cargar()
-
-    def cargar(self):
-        if os.path.exists(self.archivo):
-            with open(self.archivo, 'rb') as f:
-                self.pacientes = pickle.load(f)
-        else:
-            self.pacientes = []
+        self.pacientes = Persistencia.cargar(self.archivo)  # ⬅️ Usamos Persistencia
 
     def guardar(self):
-        with open(self.archivo, 'wb') as f:
-            pickle.dump(self.pacientes, f)
+        Persistencia.guardar(self.archivo, self.pacientes)  # ⬅️ Usamos Persistencia
 
     def listar_todos(self):
         if not self.pacientes:
