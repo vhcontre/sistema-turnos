@@ -2,23 +2,16 @@
 import pickle
 import os
 from modelos.medico import Medico
+from utils.persistencia import Persistencia  # <-- Importamos
+
 
 class GestorDeMedicos:
     def __init__(self, archivo='datos/medicos.bin'):
         self.archivo = archivo
-        self.medicos = []
-        self.cargar()
-
-    def cargar(self):
-        if os.path.exists(self.archivo):
-            with open(self.archivo, 'rb') as f:
-                self.medicos = pickle.load(f)
-        else:
-            self.medicos = []
+        self.medicos = Persistencia.cargar(self.archivo)  # <-- Usamos Persistencia
 
     def guardar(self):
-        with open(self.archivo, 'wb') as f:
-            pickle.dump(self.medicos, f)
+        Persistencia.guardar(self.archivo, self.medicos)  # <-- Usamos Persistencia
 
     def listar_todos(self):
         if not self.medicos:
