@@ -1,4 +1,8 @@
+# -*- coding: utf-8 -*-
+
 import pickle
+import csv
+
 import os
 
 class Persistencia:
@@ -66,3 +70,18 @@ class Persistencia:
                 pickle.dump(datos, f)
         except Exception as e:
             print(f"Error al guardar archivo {archivo}: {e}")
+    
+
+    def guardar_csv(lista, archivo, campos):
+        with open(archivo, 'w', newline='') as f:
+            writer = csv.DictWriter(f, fieldnames=campos)
+            writer.writeheader()
+            for item in lista:
+                writer.writerow(item.__dict__)
+
+    def cargar_csv(archivo):
+        if not os.path.exists(archivo):
+            return []
+        with open(archivo, 'r') as f:
+            reader = csv.DictReader(f)
+            return list(reader)
