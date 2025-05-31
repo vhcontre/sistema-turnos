@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
-import pickle
-import os
 from modelos.turno import Turno
 from gestores.gestor_pacientes import GestorDePacientes
 from gestores.gestor_medicos import GestorDeMedicos
-from utils.persistencia import Persistencia  # <--- importamos
+from utils.persistencia import Persistencia
+from utils.fechahora import FechaHora
+# from utils.validaciones import es_fecha_valida, es_fecha_futura
 
 class GestorDeTurnos:
     def __init__(self, archivo='datos/turnos.bin'):
@@ -16,7 +16,6 @@ class GestorDeTurnos:
 
     def guardar(self):
         Persistencia.guardar(self.archivo, self.turnos)  # <--- usar Persistencia
-
 
     def listar_todos(self):
         if not self.turnos:
@@ -46,10 +45,16 @@ class GestorDeTurnos:
             print(t)
 
     def agregar(self, fecha_hora, paciente_dni, medico_matricula, motivo):
+        # Validar fecha y hora        
+        if not fecha_hora.es_fecha_futura():
+             print("La fecha del turno debe ser futura.")
+             return
+        
         # Verificar paciente y médico existen
         if not self.gestor_pacientes.buscar_por_dni(paciente_dni):
             print(" Paciente no encontrado.")
             return
+        
         if not self.gestor_medicos.buscar_por_matricula(medico_matricula):
             print("Médico no encontrado.")
             return
@@ -98,7 +103,8 @@ def menu_turnos():
             fecha_hora = input("Fecha y hora (dd/mm/aaaa HH:MM): ")
             gestor.buscar_por_fecha(fecha_hora)
         elif opcion == "5":
-            fecha_hora = input("Fecha y hora (dd/mm/aaaa HH:MM): ")
+            fecha_hora_str = input("Fecha y hora (dd/mm/aaaa HH:MM): ")
+            fecha_hora = FechaHora.from_string(fecha_hora_str)
             paciente_dni = input("DNI del paciente: ")
             medico_matricula = input("Matrícula del médico: ")
             motivo = input("Motivo del turno: ")

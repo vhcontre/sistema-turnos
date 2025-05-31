@@ -2,9 +2,13 @@
 
 from datetime import datetime
 
-def es_fecha_futura(fecha_hora_str):
+def es_fecha_valida(fecha_str):
     try:
-        fecha = datetime.strptime(fecha_hora_str, "%d/%m/%Y %H:%M")
-        return fecha > datetime.now()
+        datetime.strptime(fecha_str, "%d/%m/%Y %H:%M")
+        return True
     except ValueError:
         return False
+
+def es_fecha_futura(fecha_str):
+    fecha = datetime.strptime(fecha_str, "%d/%m/%Y %H:%M")
+    return fecha > datetime.now()

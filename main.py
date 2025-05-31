@@ -4,7 +4,7 @@ from gestores.gestor_turnos import menu_turnos
 
 def main():
     while True:
-        print("\n🏥 Sistema de Gestión de Turnos Médicos")
+        print("\nSistema de Gestión de Turnos Médicos")
         print("1. Gestión de Pacientes")
         print("2. Gestión de Médicos")
         print("3. Gestión de Turnos")
@@ -18,7 +18,7 @@ def main():
         elif opcion == "3":
             menu_turnos()
         elif opcion == "0":
-            print("👋 Saliendo...")
+            print("Saliendo.")
             break
         else:
             print("Opción inválida.")
