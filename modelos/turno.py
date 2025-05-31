@@ -1,4 +1,4 @@
-from utils.fechahora import FechaHora
+from utils.fecha import Fecha
 
 class Turno:
     _ultimo_numero = 0  # Atributo de clase para autoincrementar
@@ -10,7 +10,7 @@ class Turno:
         self.paciente_dni = paciente_dni
         self.medico_matricula = medico_matricula
         self.motivo = motivo
-        if not isinstance(self.fecha_hora, FechaHora):
+        if not isinstance(self.fecha_hora, Fecha):
             raise TypeError("La fecha_hora del turno debe ser una instancia de la clase FechaHora.")
 
     def __str__(self):

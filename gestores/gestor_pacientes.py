@@ -40,6 +40,7 @@ class GestorDePacientes:
             return
 
         self.pacientes.append(nuevo)
+        self.guardar()
         print("Paciente agregado.")
 
     def modificar(self):
@@ -58,6 +59,7 @@ class GestorDePacientes:
                     paciente.fecha_nacimiento = Fecha(nueva_fecha)
                 except ValueError as e:
                     print(e)
+            self.guardar()
             print("Paciente modificado.")
         else:
             print("Paciente no encontrado.")
@@ -67,6 +69,7 @@ class GestorDePacientes:
         paciente = self.buscar_por_dni(dni)
         if paciente:
             self.pacientes.remove(paciente)
+            self.guardar()
             print("Paciente eliminado.")
         else:
             print("Paciente no encontrado.")
@@ -91,9 +94,8 @@ def menu_pacientes():
         print("2. Buscar por DNI")
         print("3. Agregar")
         print("4. Modificar")
-        print("5. Eliminar")
-        print("6. Guardar cambios")
-        print("7. Limpiar pantalla")
+        print("5. Eliminar")        
+        print("6. Limpiar pantalla")
         print("0. Volver al menú principal")
 
         opcion = input("Elija una opción: ")
@@ -108,11 +110,8 @@ def menu_pacientes():
         elif opcion == "4":
             gestor.modificar()
         elif opcion == "5":
-            gestor.eliminar()
+            gestor.eliminar()        
         elif opcion == "6":
-            gestor.guardar()
-            print("Cambios guardados.")
-        elif opcion == "7":
             gestor.limpiar_pantalla()
         elif opcion == "0":
             break

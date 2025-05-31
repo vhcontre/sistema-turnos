@@ -5,7 +5,7 @@ from modelos.turno import Turno
 from gestores.gestor_pacientes import GestorDePacientes
 from gestores.gestor_medicos import GestorDeMedicos
 from utils.persistencia import Persistencia
-from utils.fechahora import FechaHora
+from utils.fecha import Fecha
 
 class GestorDeTurnos:
     def __init__(self, archivo='datos/turnos.bin'):
@@ -47,7 +47,7 @@ class GestorDeTurnos:
     def buscar_por_fecha(self):
         fecha_hora_str = input("Fecha y hora (dd/mm/aaaa HH:MM): ")
         try:
-            fecha_hora = FechaHora.from_string(fecha_hora_str)
+            fecha_hora = Fecha.from_string(fecha_hora_str)
         except Exception:
             print("Formato de fecha y hora incorrecto.")
             return
@@ -60,7 +60,7 @@ class GestorDeTurnos:
     def agregar(self):
         fecha_hora_str = input("Fecha y hora (dd/mm/aaaa HH:MM): ")
         try:
-            fecha_hora = FechaHora.from_string(fecha_hora_str)
+            fecha_hora = Fecha.from_string(fecha_hora_str)
         except Exception:
             print("Formato de fecha y hora incorrecto.")
             return
@@ -88,7 +88,7 @@ class GestorDeTurnos:
     def eliminar(self):
         fecha_hora_str = input("Fecha y hora (dd/mm/aaaa HH:MM): ")
         try:
-            fecha_hora = FechaHora.from_string(fecha_hora_str)
+            fecha_hora = Fecha.from_string(fecha_hora_str)
         except Exception:
             print("Formato de fecha y hora incorrecto.")
             return
@@ -107,6 +107,7 @@ class GestorDeTurnos:
         
 def menu_turnos():
     gestor = GestorDeTurnos()
+    gestor.limpiar_pantalla()  
     while True:
         print("\nGestión de Turnos")
         print("1. Listar todos")
