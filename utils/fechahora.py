@@ -11,11 +11,15 @@ class FechaHora:
     def __str__(self):
         return self.fecha.strftime("%d/%m/%Y %H:%M")
     
+    # Esto solo funcionará si la clase FechaHora implementa correctamente el método __eq__.
+    # Si no lo hace, aunque los valores sean iguales, la comparación == entre dos instancias distintas de FechaHora devolverá False.
+    def __eq__(self, other):
+        if isinstance(other, FechaHora):
+            return self.fecha == other.fecha
+        return False
+
     @classmethod
     def from_string(cls, fecha_hora_str):
-        """
-        Crea una instancia de FechaHora a partir de un string con formato 'DD/MM/AAAA HH:MM'.
-        """
         try:
             fecha_str, hora_str = fecha_hora_str.strip().split(" ")
             return cls(fecha_str, hora_str)
