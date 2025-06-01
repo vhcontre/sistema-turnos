@@ -1,6 +1,7 @@
 from utils.fecha import Fecha
 
 class Turno:
+    
     _ultimo_numero = 0  # Atributo de clase para autoincrementar
 
     def __init__(self, fecha_hora, paciente_dni, medico_matricula, motivo):

@@ -17,3 +17,5 @@ def importar_csv(nombre_archivo):
     with open(nombre_archivo, newline='') as archivo:
         reader = csv.DictReader(archivo)
         return list(reader)
+
+

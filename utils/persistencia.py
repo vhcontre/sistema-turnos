@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import pickle
-import csv
-
 import os
 
 class Persistencia:    
@@ -27,6 +25,4 @@ class Persistencia:
                 pickle.dump(datos, f)
         except Exception as e:
             print(f"Error al guardar archivo {archivo}: {e}")
-    
-
     

@@ -10,7 +10,7 @@ class GestorDePacientes:
         self.archivo = archivo
         self.pacientes = Persistencia.cargar(self.archivo)
 
-    def guardar(self):
+    def guardar(self):        
         Persistencia.guardar(self.archivo, self.pacientes)
 
     def listar_todos(self):

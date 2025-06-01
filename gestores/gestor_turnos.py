@@ -47,7 +47,9 @@ class GestorDeTurnos:
     def buscar_por_fecha(self):
         fecha_hora_str = input("Fecha y hora (dd/mm/aaaa HH:MM): ")
         try:
-            fecha_hora = Fecha.from_string(fecha_hora_str)
+            partes = fecha_hora_str.strip().split(" ")
+            fecha_str, hora_str = partes
+            fecha_hora = Fecha(fecha_str, hora_str)
         except Exception:
             print("Formato de fecha y hora incorrecto.")
             return
@@ -60,7 +62,9 @@ class GestorDeTurnos:
     def agregar(self):
         fecha_hora_str = input("Fecha y hora (dd/mm/aaaa HH:MM): ")
         try:
-            fecha_hora = Fecha.from_string(fecha_hora_str)
+            partes = fecha_hora_str.strip().split(" ")
+            fecha_str, hora_str = partes
+            fecha_hora = Fecha(fecha_str, hora_str)            
         except Exception:
             print("Formato de fecha y hora incorrecto.")
             return
@@ -88,7 +92,9 @@ class GestorDeTurnos:
     def eliminar(self):
         fecha_hora_str = input("Fecha y hora (dd/mm/aaaa HH:MM): ")
         try:
-            fecha_hora = Fecha.from_string(fecha_hora_str)
+            partes = fecha_hora_str.strip().split(" ")
+            fecha_str, hora_str = partes
+            fecha_hora = Fecha(fecha_str, hora_str)  
         except Exception:
             print("Formato de fecha y hora incorrecto.")
             return

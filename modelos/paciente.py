@@ -19,3 +19,6 @@ class Paciente:
 
     def __str__(self):
         return f"DNI: {self.dni} | Nombre: {self.nombre} | Obra Social: {self.obra_social} | Nacimiento: {self.fecha_nacimiento}"
+
+
+    

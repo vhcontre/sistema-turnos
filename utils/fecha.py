@@ -9,14 +9,14 @@ class Fecha:
         """
         if not fecha_str:
             ahora = datetime.now()
-            self.fecha = ahora
+            self.mi_fecha = ahora
         else:
             if not self.es_fecha_valida(fecha_str):
                 raise ValueError('Formato de fecha no válido. Debe ser dd/mm/aaaa')
             if not hora_str:
                 hora_str = "00:00"
             try:
-                self.fecha = datetime.strptime(f"{fecha_str} {hora_str}", "%d/%m/%Y %H:%M")
+                self.mi_fecha = datetime.strptime(f"{fecha_str} {hora_str}", "%d/%m/%Y %H:%M")
             except ValueError:
                 raise ValueError('Fecha u hora no válida. Verifique el día, mes, año y hora.')
 
@@ -29,33 +29,16 @@ class Fecha:
             datetime(anio, mes, dia)
             return True
         except Exception:
-            return False
+            raise ValueError('Fecha no es válida. Verifique el día, mes y año.')
 
     def __str__(self):
-        return self.fecha.strftime("%d/%m/%Y %H:%M")
+        return self.mi_fecha.strftime("%d/%m/%Y %H:%M")
 
-    def __eq__(self, other):
-        if isinstance(other, Fecha):
-            return self.fecha == other.fecha
-        return False
-
-    @classmethod
-    def from_string(cls, fecha_hora_str):
-        """
-        Permite crear una Fecha desde un string 'dd/mm/aaaa HH:MM' o solo 'dd/mm/aaaa'
-        """
-        partes = fecha_hora_str.strip().split(" ")
-        if len(partes) == 2:
-            fecha_str, hora_str = partes
-        elif len(partes) == 1:
-            fecha_str = partes[0]
-            hora_str = "00:00"
-        else:
-            raise ValueError("Formato esperado: 'DD/MM/AAAA HH:MM' o 'DD/MM/AAAA'")
-        return cls(fecha_str, hora_str)
-
+    def __eq__(self, otra_fecha):
+        if isinstance(otra_fecha, Fecha):
+            return self.mi_fecha == otra_fecha.fecha
+        return False   
+    
     def es_fecha_futura(self):
-        return self.fecha > datetime.now()
-
-    def coincide_con(self, otra):
-        return self.fecha == otra.fecha
+        return self.mi_fecha > datetime.now()
+    
