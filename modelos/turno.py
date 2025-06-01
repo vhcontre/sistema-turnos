@@ -1,5 +1,14 @@
 from utils.fecha import Fecha
 
+
+
+"""
+_ultimo_numero NO debe ser un atributo de instancia, sino de clase.
+¿Por qué?
+Porque si lo hago como atributo de instancia (self._ultimo_numero), cada turno tendría su propio contador 
+y el número no sería autoincremental entre diferentes instancias de Turno.
+Como atributo de clase (Turno._ultimo_numero), todos los objetos Turno comparten el mismo contador.
+"""
 class Turno:
     
     _ultimo_numero = 0  # Atributo de clase para autoincrementar

@@ -22,11 +22,23 @@ class GestorDeTurnos:
     def guardar(self):
         Persistencia.guardar(self.archivo, self.turnos)  
 
+    #Parsear significa analizar y convertir una cadena de texto a un formato estructurado.
+    def _parsear_fecha_hora(self, fecha_hora_str):
+        try:
+            partes = fecha_hora_str.strip().split(" ")
+            fecha_str, hora_str = partes
+            return Fecha(fecha_str, hora_str)
+        except Exception:
+            raise ValueError("Formato de fecha y hora incorrecto.")
+
     def listar_todos(self):
         if not self.turnos:
             print("No hay turnos cargados.")
+            return
+        print("")
         for t in self.turnos:
             print(t)
+            print("-" * 100)
 
     def listar_por_paciente(self):
         dni = input("DNI del paciente: ")
@@ -35,6 +47,7 @@ class GestorDeTurnos:
             print("No se encontraron turnos para ese paciente.")
         for t in encontrados:
             print(t)
+            print("-" * 80)
 
     def listar_por_medico(self):
         matricula = input("Matrícula del médico: ")
@@ -43,13 +56,12 @@ class GestorDeTurnos:
             print("No se encontraron turnos para ese médico.")
         for t in encontrados:
             print(t)
+            print("-" * 80)
 
     def buscar_por_fecha(self):
         fecha_hora_str = input("Fecha y hora (dd/mm/aaaa HH:MM): ")
         try:
-            partes = fecha_hora_str.strip().split(" ")
-            fecha_str, hora_str = partes
-            fecha_hora = Fecha(fecha_str, hora_str)
+            fecha_hora = self._parsear_fecha_hora(fecha_hora_str)
         except Exception:
             print("Formato de fecha y hora incorrecto.")
             return
@@ -58,13 +70,12 @@ class GestorDeTurnos:
             print("No se encontraron turnos para esa fecha y hora.")
         for t in encontrados:
             print(t)
+            print("-" * 80)
 
     def agregar(self):
         fecha_hora_str = input("Fecha y hora (dd/mm/aaaa HH:MM): ")
         try:
-            partes = fecha_hora_str.strip().split(" ")
-            fecha_str, hora_str = partes
-            fecha_hora = Fecha(fecha_str, hora_str)            
+            fecha_hora = self._parsear_fecha_hora(fecha_hora_str)         
         except Exception:
             print("Formato de fecha y hora incorrecto.")
             return
@@ -92,9 +103,7 @@ class GestorDeTurnos:
     def eliminar(self):
         fecha_hora_str = input("Fecha y hora (dd/mm/aaaa HH:MM): ")
         try:
-            partes = fecha_hora_str.strip().split(" ")
-            fecha_str, hora_str = partes
-            fecha_hora = Fecha(fecha_str, hora_str)  
+            fecha_hora = self._parsear_fecha_hora(fecha_hora_str)
         except Exception:
             print("Formato de fecha y hora incorrecto.")
             return
@@ -102,9 +111,13 @@ class GestorDeTurnos:
         medico_matricula = input("Matrícula del médico: ")
         for t in self.turnos:
             if t.fecha_hora == fecha_hora and t.paciente_dni == paciente_dni and t.medico_matricula == medico_matricula:
-                self.turnos.remove(t)
-                self.guardar()
-                print("Turno eliminado.")
+                confirmacion = input(f"¿Está seguro que desea eliminar el turno de {paciente_dni} con el médico {medico_matricula} en {fecha_hora}? (S/N): ").strip().upper()
+                if confirmacion == "S":
+                    self.turnos.remove(t)
+                    self.guardar()
+                    print("Turno eliminado.")
+                else:
+                    print("Operación cancelada.")
                 return
         print("Turno no encontrado.")
     
@@ -114,16 +127,20 @@ class GestorDeTurnos:
 def menu_turnos():
     gestor = GestorDeTurnos()
     gestor.limpiar_pantalla()  
-    while True:
-        print("\nGestión de Turnos")
-        print("1. Listar todos")
-        print("2. Listar turnos por paciente")
-        print("3. Listar turnos por médico")
-        print("4. Buscar por fecha y hora")
-        print("5. Agregar")
-        print("6. Eliminar")
-        print("7. Limpiar pantalla")
-        print("0. Volver al menú principal")
+    while True:        
+
+        print("\n" + "="*40)
+        print("📒 \033[1mGestión de Turnos\033[0m")
+        print("="*40)
+        print("[1] Listar todos")
+        print("[2] Listar turnos por paciente")
+        print("[3] Listar turnos por médico")
+        print("[4] Buscar por fecha y hora")
+        print("[5] Agregar")
+        print("\033[31m[6] Eliminar\033[0m") 
+        print("[7] Limpiar pantalla")
+        print("[0] Volver al menú principal")
+        print("="*40)
 
         opcion = input("Elija una opción: ")
         if opcion == "1":
@@ -141,6 +158,7 @@ def menu_turnos():
         elif opcion == "7":
             gestor.limpiar_pantalla()
         elif opcion == "0":
+            gestor.limpiar_pantalla()
             break
         else:
             print("Opción inválida.")

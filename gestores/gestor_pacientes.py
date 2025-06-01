@@ -16,8 +16,15 @@ class GestorDePacientes:
     def listar_todos(self):
         if not self.pacientes:
             print("No hay pacientes cargados.")
+            return
+
+        print("=" * 80)
+        print(f"{'DNI':<12} {'Nombre':<25} {'Obra Social':<20} {'Nacimiento':<15}")
+        print("-" * 80)
         for p in self.pacientes:
-            print(p)
+            fecha_str = p.fecha_nacimiento.mi_fecha.strftime("%d/%m/%Y")
+            print(f"{p.dni:<12} {p.nombre:<25} {p.obra_social:<20} {fecha_str:<15}")
+        print("=" * 80)
 
     def buscar_por_dni(self, dni):
         for p in self.pacientes:
@@ -68,9 +75,13 @@ class GestorDePacientes:
         dni = input("DNI a eliminar: ")
         paciente = self.buscar_por_dni(dni)
         if paciente:
-            self.pacientes.remove(paciente)
-            self.guardar()
-            print("Paciente eliminado.")
+            confirmacion = input(f"¿Está seguro que desea eliminar al paciente {paciente.nombre} (DNI: {dni})? (S/N): ").strip().upper()
+            if confirmacion == "S":
+                self.pacientes.remove(paciente)
+                self.guardar()
+                print("Paciente eliminado.")
+            else:
+                print("Operación cancelada.")
         else:
             print("Paciente no encontrado.")
 
@@ -89,14 +100,17 @@ def menu_pacientes():
     gestor = GestorDePacientes()
     gestor.limpiar_pantalla()        
     while True:        
-        print("\nGestión de Pacientes")
-        print("1. Listar todos")
-        print("2. Buscar por DNI")
-        print("3. Agregar")
-        print("4. Modificar")
-        print("5. Eliminar")        
-        print("6. Limpiar pantalla")
-        print("0. Volver al menú principal")
+        print("\n" + "="*40)
+        print("🩺  \033[1mGestión de Pacientes\033[0m")
+        print("="*40)
+        print("[1] Listar todos")
+        print("[2] Buscar por DNI")
+        print("[3] Agregar")
+        print("[4] Modificar")
+        print("\033[31m[5] Eliminar\033[0m") 
+        print("[6] Limpiar pantalla")
+        print("[0] Volver al menú principal")
+        print("="*40)
 
         opcion = input("Elija una opción: ")
         if opcion == "1":
@@ -114,6 +128,7 @@ def menu_pacientes():
         elif opcion == "6":
             gestor.limpiar_pantalla()
         elif opcion == "0":
+            gestor.limpiar_pantalla()
             break
         else:
             print("Opción inválida.")

@@ -3,7 +3,6 @@
 import os
 from modelos.medico import Medico
 from utils.persistencia import Persistencia  
-from csv import DictWriter
 from utils.csv_handler import exportar_csv
 
 class GestorDeMedicos:
@@ -23,8 +22,14 @@ class GestorDeMedicos:
     def listar_todos(self):
         if not self.medicos:
             print("No hay médicos cargados.")
+            return
+
+        print("=" * 70)
+        print(f"{'Matrícula':<15} {'Nombre':<30} {'Especialidad':<20}")
+        print("-" * 70)
         for m in self.medicos:
-            print(m)
+            print(f"{m.matricula:<15} {m.nombre:<30} {m.especialidad:<20}")
+        print("=" * 70)
 
     def buscar_por_matricula(self, matricula):
         for m in self.medicos:
@@ -63,9 +68,13 @@ class GestorDeMedicos:
         matricula = input("Matrícula a eliminar: ")
         medico = self.buscar_por_matricula(matricula)
         if medico:
-            self.medicos.remove(medico)
-            self.guardar()
-            print("Médico eliminado.")
+            confirmacion = input(f"¿Está seguro que desea eliminar al médico {medico.nombre} (Matrícula: {matricula})? (S/N): ").strip().upper()
+            if confirmacion == "S":
+                self.medicos.remove(medico)
+                self.guardar()
+                print("Médico eliminado.")
+            else:
+                print("Operación cancelada.")
         else:
             print("Médico no encontrado.")
 
@@ -76,15 +85,20 @@ def menu_medicos():
     gestor = GestorDeMedicos()
     gestor.limpiar_pantalla()
     while True:
-        print("\nGestión de Médicos")
-        print("1. Listar todos")
-        print("2. Buscar por matrícula")
-        print("3. Agregar")
-        print("4. Modificar")
-        print("5. Eliminar")    
-        print("6. Exportar CSV")     
-        print("7. Limpiar pantalla")
-        print("0. Volver al menú principal")
+        
+
+        print("\n" + "="*40)
+        print("👨‍⚕️ \033[1mGestión de Médicos\033[0m")
+        print("="*40)
+        print("[1] Listar todos")
+        print("[2] Buscar por matrícula")
+        print("[3] Agregar")
+        print("[4] Modificar")
+        print("\033[31m[5] Eliminar\033[0m") 
+        print("[6] Limpiar pantalla")
+        print("[7] Exportar CSV")
+        print("[0] Volver al menú principal")
+        print("="*40)
 
         opcion = input("Elija una opción: ")
         if opcion == "1":
@@ -99,11 +113,13 @@ def menu_medicos():
             gestor.modificar()
         elif opcion == "5":
             gestor.eliminar()      
-        elif opcion == "6":            
-            gestor.exportar_datos_csv()
-        elif opcion == "7":
+        elif opcion == "6":
             gestor.limpiar_pantalla()
+        elif opcion == "7":            
+            gestor.exportar_datos_csv()
+        
         elif opcion == "0":
+            gestor.limpiar_pantalla()
             break
         else:
             print("Opción inválida.")

@@ -18,7 +18,8 @@ class Paciente:
         
 
     def __str__(self):
-        return f"DNI: {self.dni} | Nombre: {self.nombre} | Obra Social: {self.obra_social} | Nacimiento: {self.fecha_nacimiento}"
+        fecha_str = self.fecha_nacimiento.mi_fecha.strftime("%d/%m/%Y")
+        return f"DNI: {self.dni} | Nombre: {self.nombre} | Obra Social: {self.obra_social} | Nacimiento: {fecha_str}"
 
 
     
